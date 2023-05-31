@@ -7,15 +7,18 @@ public class MovieDto {
     private String image;
     private String slogan;
     private String member;
+    private String bottom;
 
     public MovieDto() {}
 
-    public MovieDto(int idx, String team, String image, String slogan, String member) {
-        this.idx = idx;
-        this.team = team;
-        this.image = image;
-        this.slogan = slogan;
+    public MovieDto(int idx, String team, String image, String slogan, String member, String bottom){
+        this.idx=idx;
+        this.team=team;
+        this.image=image;
+        this.slogan=slogan;
         this.member = member;
+        this.bottom=bottom;
+
     }
 
     public int getIdx() {
@@ -57,6 +60,14 @@ public class MovieDto {
     public void setMember(String member) {
         this.member = member;
     }
+    public String getBottom() {
+        return bottom;
+    }
+
+    public void setBottom(String bottom) {
+        this.bottom = bottom;
+    }
+
 
     @Override
     public String toString() {
