@@ -4,14 +4,6 @@
   <meta charset="UTF-8">
   <title>library-web-project</title>
   <style>
-
-    html, body {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
     .menubar {
       position: absolute;
       width: 1392px;
@@ -109,24 +101,6 @@
       text-align: center;
 
       color: #000000;
-
-      animation-name: float;
-      animation-duration: 3s;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-      100% {
-        transform: translateY(0);
-      }
     }
     .nav1{
       position: absolute;
@@ -206,11 +180,11 @@
   </style>
 </head>
 <body>
-<!--<div class="menubar"></div>-->
-<!--<img class="logo" src="kbologo.png" />-->
-<!--<div class="menu2">PLAYER</div>-->
-<!--<div class="menu3" th:onclick="">STORY</div>-->
-<!--<div class="menu4">FANS</div>-->
+<div class="menubar"></div>
+<img class="logo" src="kbologo.png" />
+<div class="menu2">PLAYER</div>
+<div class="menu3" th:onclick="">STORY</div>
+<div class="menu4">FANS</div>
 <div class="slogan">선수들에게 응원의 메세지를 남겨주세요!</div>
 <nav>
   <p class="nav1"></p>

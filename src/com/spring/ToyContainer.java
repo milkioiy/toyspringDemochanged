@@ -16,7 +16,7 @@ public class ToyContainer {
 
     public ToyContainer(String[] clas) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // controller와 service 자동 생성
-        for( String cls : clas) {
+        for (String cls : clas) {
             Class cla = Class.forName(cls);
             if (cla.getAnnotation(Controller.class) != null)
                 controller = Class.forName(cls).newInstance();
@@ -36,8 +36,8 @@ public class ToyContainer {
 
         Field[] fields = controller.getClass().getDeclaredFields();
         for (Field field : fields) {
-            Autowired  auto = field.getAnnotation(Autowired.class);
-            if ( auto != null) {
+            Autowired auto = field.getAnnotation(Autowired.class);
+            if (auto != null) {
                 field.setAccessible(true);
                 field.set(controller, service);
             }
@@ -49,9 +49,6 @@ public class ToyContainer {
     }
 
 
-
-
-
     public String request(String path) throws InvocationTargetException, IllegalAccessException, IOException {
 
         Map<String, String> param = new HashMap<String, String>();
@@ -59,9 +56,21 @@ public class ToyContainer {
 
         String[] qeuryString = path.split("\\?");
         Method method = path2Method.get(qeuryString[0]);
-        if (qeuryString.length == 2 ) {
-            String[] tokens = qeuryString[1].split("&");
-            for(String token : tokens ) {
+
+        // PathVariable 처리
+        String[] tokens = qeuryString[0].split("/");
+        for (int i = 0; i < tokens.length; i++) {
+            String token = tokens[i];
+            if (token.startsWith("{") && token.endsWith("}")) {
+                String paramName = token.substring(1, token.length() - 1);
+                String paramValue = tokens[i];
+                param.put(paramName, paramValue);
+            }
+        }
+
+        if (qeuryString.length == 2) {
+            String[] queryStringTokens = qeuryString[1].split("&");
+            for (String token : queryStringTokens) {
                 String[] nameValue = token.split("=");
                 if (nameValue.length == 2) param.put(nameValue[0], nameValue[1]);
                 else param.put(nameValue[0], "");
@@ -70,12 +79,12 @@ public class ToyContainer {
 
         String output = (String) method.invoke(controller, param, model);
 
-        if ( method.getAnnotation(ResponseBody.class) == null ) {
-                String template = new String(Files.readAllBytes(Paths.get(output + ".html")));
-                for(String key : model.keySet()) {
-                    template = template.replace("@" + key, model.get(key).toString());
-                }
-                output = template;
+        if (method.getAnnotation(ResponseBody.class) == null) {
+            String template = new String(Files.readAllBytes(Paths.get(output + ".html")));
+            for (String key : model.keySet()) {
+                template = template.replace("@" + key, model.get(key).toString());
+            }
+            output = template;
         }
         return output;
     }
