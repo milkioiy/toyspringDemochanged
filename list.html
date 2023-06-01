@@ -61,9 +61,22 @@
     </style>
 </head>
 <body>
+<th:block th:each="num : ${#numbers.sequence(1,5)}">
+    <div th:text="${num}"></div>
+</th:block>
 <div>
     <h1>구단 정보<a class="add-link" href="/insertForm">[Add]</a></h1>
-    <table>
+    <form id="addForm">
+        idx: <input type="text" name="idx"><br/>
+        title: <input type="text" name="team"><br/>
+        image: <input type="text" name="image"><br/>
+        slogan: <input type="text" name="slogan"><br/>
+        member: <input type="text" name="member"><br/>
+        bottom: <input type="text" name="bottom"><br/>
+        <input type="submit" value="추가">
+    </form>
+
+    <table id="teamTable">
         <thead>
         <tr>
             <th>index</th>
@@ -78,8 +91,8 @@
             <td><img src="LG.png" width="30"></td>
             <td><a href="lghome.html">LG</a></td>
             <td>
-                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>
-                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>
+                <a href="/delete/0">[Delete]</a>
+                <a href="/updateForm/0">[Update]</a>
             </td>
         </tr>
 
@@ -88,8 +101,8 @@
             <td><img src="OB.png" width="30"></td>
             <td><a href="doosanhome.html">DOOSAN</a></td>
             <td>
-                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>
-                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>
+                <a href="/delete/0">[Delete]</a>
+                <a href="/updateForm/0">[Update]</a>
             </td>
         </tr>
 
@@ -98,8 +111,8 @@
             <td><img src="WO.png" width="30"></td>
             <td><a href="kiwoomhome.html">KIWOOM</a></td>
             <td>
-                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>
-                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>
+                <a href="/delete/0">[Delete]</a>
+                <a href="/updateForm/0">[Update]</a>
             </td>
         </tr>
 
@@ -108,8 +121,8 @@
             <td><img src="SS.png" width="30"></td>
             <td><a href="samsunghome.html">SAMSUNG</a></td>
             <td>
-                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>
-                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>
+                <a href="/delete/0">[Delete]</a>
+                <a href="/updateForm/0">[Update]</a>
             </td>
         </tr>
         <tr>
@@ -117,10 +130,21 @@
             <td><img src="HH.png" width="30"></td>
             <td><a href="hanwhahome.html">HANWHA</a></td>
             <td>
-                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>
-                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>
+                <a href="/delete/0">[Delete]</a>
+                <a href="/updateForm/0">[Update]</a>
             </td>
         </tr>
+<!--        <tr>-->
+<!--            <td></td>-->
+<!--            <td><img src=".png" width="30"></td>-->
+<!--            <td><a href=""></a></td>-->
+<!--            <td>-->
+<!--                <a th:href="@{/delete/{idx}(idx=${m.idx})}">[Delete]</a>-->
+<!--                <a th:href="@{/updateForm/{idx}(idx=${m.idx})}">[Update]</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+
+
         </tbody>
     </table>
     <div class="center">
@@ -128,5 +152,40 @@
     </div>
 
 </div>
+
+<script>
+    // 폼 제출 이벤트 처리
+    document.getElementById("addForm").addEventListener("submit", function(e) {
+        e.preventDefault(); // 폼 기본 동작 막기
+
+        // 폼 값 가져오기
+        var form = e.target;
+        var idx = form.elements.idx.value;
+        var team = form.elements.team.value;
+        var image = form.elements.image.value;
+        var slogan = form.elements.slogan.value;
+        var member = form.elements.member.value;
+        var bottom = form.elements.bottom.value;
+
+        // 새로운 <tr> 태그 생성
+        var newRow = document.createElement("tr");
+        newRow.innerHTML = `
+                <td>${idx}</td>
+                <td><img src="${image}" width="30"></td>
+                <td><a href="${team.toLowerCase()}home.html">${team}</a></td>
+                <td>
+                    <a href="/delete/${idx}">[Delete]</a>
+                    <a href="/updateForm/${idx}">[Update]</a>
+                </td>
+            `;
+
+        // 테이블에 새로운 <tr> 태그 추가
+        var tableBody = document.querySelector("#teamTable tbody");
+        tableBody.appendChild(newRow);
+
+        // 입력 필드 초기화
+        form.reset();
+    });
+</script>
 </body>
 </html>

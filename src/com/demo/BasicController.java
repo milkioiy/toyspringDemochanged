@@ -2,7 +2,6 @@ package com.demo;
 
 
 import com.spring.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -64,14 +63,39 @@ public class BasicController {
     }
 
     @RequestMapping("/insertForm")
-    public  String insertForm() {
+    public  String insertForm(Map<String, String> param, Map<String, Object> model) {
         return "insertForm";
     }
 
     @RequestMapping("/insert")
-    public  String insert(MovieDto base) {
-        service.insert(base);
-        return "redirect:/list";
+    public  String insert(Map<String, String> param, Map<String, Object> model) {
+
+        MovieDto movieDto = new MovieDto();
+
+        movieDto.setImage(param.get("image"));
+        movieDto.setBottom(param.get("bottom"));
+        movieDto.setMember(param.get("member"));
+        movieDto.setTeam(param.get("team"));
+        movieDto.setIdx(Integer.valueOf(param.get("idx")));
+        movieDto.setSlogan(param.get("slogan"));
+
+        for ( Map.Entry<String, String> entry : param.entrySet() ) {
+            System.out.println("방법2) key : " + entry.getKey() +" / value : " + entry.getValue());
+        }
+
+
+        service.insert(movieDto);
+
+        List<MovieDto> base = service.select();
+        for(int i = 0; i < base.size(); i++) {
+            System.out.println(base.get(i));
+            model.put("idx" + i, base.get(i).getIdx());
+            model.put("title" + i,base.get(i).getTeam());
+            model.put("image" + i, base.get(i).getImage());
+            model.put("member",base.get(i).getMember());
+            model.put("bottom", base.get(i).getBottom());
+        }
+        return "list";
     }
 
 

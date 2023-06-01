@@ -57,16 +57,16 @@ public class ToyContainer {
         String[] qeuryString = path.split("\\?");
         Method method = path2Method.get(qeuryString[0]);
 
-        // PathVariable 처리
-        String[] tokens = qeuryString[0].split("/");
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i];
-            if (token.startsWith("{") && token.endsWith("}")) {
-                String paramName = token.substring(1, token.length() - 1);
-                String paramValue = tokens[i];
-                param.put(paramName, paramValue);
-            }
-        }
+//        // PathVariable 처리
+//        String[] tokens = qeuryString[0].split("/");
+//        for (int i = 0; i < tokens.length; i++) {
+//            String token = tokens[i];
+//            if (token.startsWith("{") && token.endsWith("}")) {
+//                String paramName = token.substring(1, token.length() - 1);
+//                String paramValue = tokens[i];
+//                param.put(paramName, paramValue);
+//            }
+//        }
 
         if (qeuryString.length == 2) {
             String[] queryStringTokens = qeuryString[1].split("&");
